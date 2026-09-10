@@ -1,0 +1,76 @@
+---
+interface Props {
+  title: string;
+  company: string;
+  description: string | string[];
+  link?: string;
+  date: string;
+  current?: boolean;
+}
+
+const {
+  title,
+  company,
+  description,
+  link,
+  date,
+  current = false,
+} = Astro.props;
+---
+
+<div
+  class="relative mx-10 pb-2 grid before:absolute before:left-[-35px] before:block before:h-full before:border-l-2 before:border-white/15 before:content-[''] md:grid-cols-5 md:gap-10 md:space-x-4"
+>
+  <div class="relative pb-12 md:col-span-2">
+    <div class="sticky top-0">
+      <div class="flex items-center">
+        <span
+          class="absolute -left-[41px] flex size-[14px] items-center justify-center"
+          aria-hidden="true"
+        >
+          {
+            current && (
+              <span class="animate-ping motion-reduce:animate-none absolute inline-flex size-full rounded-full bg-white" />
+            )
+          }
+          <span
+            class={`relative inline-flex size-[10px] rounded-full bg-white ${current ? "shadow-[0_0_8px_2px_rgba(251,191,36,0.45)]" : ""}`}
+          ></span>
+        </span>
+        <h3 class="text-xl font-bold text-white">{title}</h3>
+      </div>
+      <h4 class="font-semibold text-xl text-white">{company}</h4>
+      <time class="p-0 m-0 text-sm text-white/90">{date}</time>
+    </div>
+  </div>
+  <div
+    class="relative flex flex-col gap-2 pb-4 text-gray-300 text-pretty md:col-span-3"
+  >
+    {
+      Array.isArray(description) ? (
+        <ul class="space-y-2 list-none">
+          {description.map((point) => (
+            <li class="relative pl-5">
+              <span class="absolute left-0 top-0">•</span>
+              {point}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>{description}</p>
+      )
+    }
+    {
+      link && (
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-x-1 text-white hover:underline"
+        >
+          Saber más sobre {company}
+        </a>
+      )
+    }
+  </div>
+</div>

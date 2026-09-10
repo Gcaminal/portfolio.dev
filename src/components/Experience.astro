@@ -1,0 +1,40 @@
+---
+import ExperienceItem from "./ExperienceItems.astro";
+
+const experience = [
+  {
+    title: "Consultor Tecnológico",
+    company: "Deloitte",
+    description: [
+    "Soporte tecnológico para el cumplimiento de la normativa española (Ley Crea y Crece, verificación de facturas Verifactu).",
+    "Automatización de flujos de generación de informes para las presentaciones regulatorias ante la AEAT de instituciones financieras.",
+    "Soporte a los procesos de cumplimiento fiscal internacional FATCA y CRS, incluyendo el diseño funcional de sistemas de intercambio de información para las autoridades fiscales.",
+    "Proyectos de mantenimiento de SAP Public Cloud y análisis y mejora de procesos operativos.",
+    ],
+    date: "Enero 2025 – Actualidad",
+    current: true,
+  },
+  {
+    title: "Consultor de Seguros",
+    company: "NTT DATA Europe & Latam",
+    description: "Extracción y procesamiento de datos BPS para proyectos de digitalización de pólizas de seguros.",
+    date: "Octubre 2024 – Enero 2025",
+  },
+  {
+    title: "Técnico de Soporte Informático",
+    company: "Ayuntamiento de la Seu d'Urgell",
+    description: "Soporte técnico a la ciudadanía y al personal interno; resolución de incidencias de hardware y software.",
+    date: "Julio 2023 – Septiembre 2023",
+  },
+];
+---
+
+<ol class="relative mt-10" aria-label="Experiencia laboral">
+  {
+    experience.map((exp, i) => (
+      <li class="anim-fade-in" style={`animation-delay: ${i * 150}ms`}>
+        <ExperienceItem {...exp} />
+      </li>
+    ))
+  }
+</ol>
