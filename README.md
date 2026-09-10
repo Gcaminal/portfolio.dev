@@ -1,6 +1,6 @@
 # Portfolio — Gerard Caminal
 
-Portfolio personal desarrollado con Astro y TailwindCSS. Sitio estático, sin JavaScript innecesario en el cliente.
+Portfolio personal desarrollado con Astro y TailwindCSS.
 
 **[Ver el portfolio](#)** ← _()_
 
