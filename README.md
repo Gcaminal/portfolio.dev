@@ -39,7 +39,7 @@ portfolio-dev/
 │   └── gradient-bg.png            # Fondo degradado
 │
 ├── src/
-│   ├── assets/                    # Restos de la plantilla de Astro
+│   ├── assets/                    # Plantilla de Astro
 │   │   ├── astro.svg
 │   │   └── background.svg
 │   │
@@ -49,7 +49,6 @@ portfolio-dev/
 │   │   │   ├── LinkedIn.astro
 │   │   │   └── Mail.astro
 │   │   ├── AboutMe.astro          # Sección "Sobre mí"
-│   │   ├── Badge.astro            # Pastilla de estado
 │   │   ├── Contact.astro          # Sección "Contacto"
 │   │   ├── Experience.astro       # Lista de experiencias (datos + map)
 │   │   ├── ExperienceItems.astro  # Item individual de la timeline
