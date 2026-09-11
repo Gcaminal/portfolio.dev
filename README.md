@@ -2,7 +2,7 @@
 
 Portfolio personal desarrollado con Astro y TailwindCSS.
 
-**[Ver el portfolio](#)** ← _(gerard-caminal.netlify.app)_
+**[Ver el portfolio](https://gerard-caminal.netlify.app)**
 
 ## 🚀 Sobre el proyecto
 
