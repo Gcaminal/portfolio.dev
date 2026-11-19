@@ -1,0 +1,3 @@
+# Send "/" to the version matching the browser language (Spanish/Catalan -> es, rest -> en)
+/  /es/  302!  Language=es,ca
+/  /en/  302!

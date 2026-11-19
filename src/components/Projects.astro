@@ -1,29 +1,57 @@
 ---
 import GitHubIcon from "./icons/GitHub.astro";
+import { useTranslations, type Lang } from "../i18n/ui";
 
-const PROJECTS = [
-    {
-        title: 'Canon',
-        description: 'Un guardián de continuidad narrativa impulsado por IA que ayuda a escritores, estudios de videojuegos y equipos de marca a mantener la coherencia en proyectos creativos largos, comprobando cada nuevo borrador contra el canon ya establecido.',
-        link: '',
-        GitHub: 'https://github.com/Gcaminal/Canon',
-        image: '/projects/canon-banner.png',
-        tags: ['Python', 'AI']
-    },
-    {
-        title: 'Análisis del rendimiento académico universitario',
-        description: 'Análisis exploratorio y modelado del rendimiento de estudiantes universitarios en Catalunya a partir de datasets públicos, aplicando técnicas de ciencia de datos con Python en el marco del Máster en Data Science.',
-        link: '',
-        GitHub: 'https://github.com/Gcaminal/UOC_Programacio_ciencia_dades_CATPEC4',
-        image: '/projects/uni-banner.webp',
-        tags: ['Python', 'Data Science']
-    }
-]
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const PROJECTS = {
+    es: [
+        {
+            title: 'Canon',
+            description: 'Un guardián de continuidad narrativa impulsado por IA que ayuda a escritores, estudios de videojuegos y equipos de marca a mantener la coherencia en proyectos creativos largos, comprobando cada nuevo borrador contra el canon ya establecido.',
+            link: '',
+            GitHub: 'https://github.com/Gcaminal/Canon',
+            image: '/projects/canon-banner.png',
+            tags: ['Python', 'AI']
+        },
+        {
+            title: 'Análisis del rendimiento académico universitario',
+            description: 'Análisis exploratorio y modelado del rendimiento de estudiantes universitarios en Catalunya a partir de datasets públicos, aplicando técnicas de ciencia de datos con Python en el marco del Máster en Data Science.',
+            link: '',
+            GitHub: 'https://github.com/Gcaminal/UOC_Programacio_ciencia_dades_CATPEC4',
+            image: '/projects/uni-banner.webp',
+            tags: ['Python', 'Data Science']
+        }
+    ],
+    en: [
+        {
+            title: 'Canon',
+            description: 'An AI-powered narrative continuity guardian that helps writers, game studios and brand teams stay consistent across long creative projects by checking every new draft against the established canon.',
+            link: '',
+            GitHub: 'https://github.com/Gcaminal/Canon',
+            image: '/projects/canon-banner.png',
+            tags: ['Python', 'AI']
+        },
+        {
+            title: 'University academic performance analysis',
+            description: "Exploratory analysis and modelling of university student performance in Catalonia using public datasets, applying data science techniques with Python as part of the Master's in Data Science.",
+            link: '',
+            GitHub: 'https://github.com/Gcaminal/UOC_Programacio_ciencia_dades_CATPEC4',
+            image: '/projects/uni-banner.webp',
+            tags: ['Python', 'Data Science']
+        }
+    ]
+}
 ---
 
 <div class="flex flex-col gap-y-16">
   {
-    PROJECTS.map(({ image, title, description, tags, GitHub }) => (
+    PROJECTS[lang].map(({ image, title, description, tags, GitHub }) => (
       <article class="flex flex-col space-x-0 space-y-6 group md:flex-row md:space-x-10 md:space-y-0">
         <div class="w-full md:w-3/5">
           <div class="relative flex flex-col items-center col-span-6 row-span-5 gap-8 transition-all duration-500 ease-in-out transform shadow-xl overflow-clip rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-[0_20px_60px_-10px_rgba(255,255,255,0.1)] lg:border lg:border-gray-800 lg:hover:border-white/30 lg:hover:bg-gray-800/50 h-48 md:h-56">
@@ -60,7 +88,7 @@ const PROJECTS = [
                 class="inline-flex items-center gap-x-2 rounded-full border border-white/20 px-3 py-1 text-sm text-white hover:bg-white/10 transition"
               >
                 <GitHubIcon class="size-6" />
-                Code
+                {t("projects.code")}
               </a>
             )}
           </footer>

@@ -6,6 +6,7 @@ interface Props {
   link?: string;
   date: string;
   current?: boolean;
+  learnMoreLabel?: string;
 }
 
 const {
@@ -15,6 +16,7 @@ const {
   link,
   date,
   current = false,
+  learnMoreLabel = "",
 } = Astro.props;
 ---
 
@@ -68,7 +70,7 @@ const {
           rel="noopener noreferrer"
           class="inline-flex items-center gap-x-1 text-white hover:underline"
         >
-          Saber más sobre {company}
+          {learnMoreLabel} {company}
         </a>
       )
     }

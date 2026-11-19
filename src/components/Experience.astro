@@ -1,39 +1,75 @@
 ---
 import ExperienceItem from "./ExperienceItems.astro";
+import { useTranslations, type Lang } from "../i18n/ui";
 
-const experience = [
-  {
-    title: "Consultor Tecnológico",
-    company: "Deloitte",
-    description: [
-    "Soporte tecnológico para el cumplimiento de la normativa española (Ley Crea y Crece, verificación de facturas Verifactu).",
-    "Automatización de flujos de generación de informes para las presentaciones regulatorias ante la AEAT de instituciones financieras.",
-    "Soporte a los procesos de cumplimiento fiscal internacional FATCA y CRS, incluyendo el diseño funcional de sistemas de intercambio de información para las autoridades fiscales.",
-    "Proyectos de mantenimiento de SAP Public Cloud y análisis y mejora de procesos operativos.",
-    ],
-    date: "Enero 2025 – Septiembre 2026",
-    current: true,
-  },
-  {
-    title: "Consultor de Seguros",
-    company: "NTT DATA Europe & Latam",
-    description: "Extracción y procesamiento de datos BPS para proyectos de digitalización de pólizas de seguros.",
-    date: "Octubre 2024 – Enero 2025",
-  },
-  {
-    title: "Técnico de Soporte Informático",
-    company: "Ayuntamiento de la Seu d'Urgell",
-    description: "Soporte técnico a la ciudadanía y al personal interno; resolución de incidencias de hardware y software.",
-    date: "Julio 2023 – Septiembre 2023",
-  },
-];
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const EXPERIENCE = {
+  es: [
+    {
+      title: "Consultor Tecnológico",
+      company: "Deloitte",
+      description: [
+        "Soporte tecnológico para el cumplimiento de la normativa española (Ley Crea y Crece, verificación de facturas Verifactu).",
+        "Automatización de flujos de generación de informes para las presentaciones regulatorias ante la AEAT de instituciones financieras.",
+        "Soporte a los procesos de cumplimiento fiscal internacional FATCA y CRS, incluyendo el diseño funcional de sistemas de intercambio de información para las autoridades fiscales.",
+        "Proyectos de mantenimiento de SAP Public Cloud y análisis y mejora de procesos operativos.",
+      ],
+      date: "Enero 2025 – Septiembre 2026",
+      current: true,
+    },
+    {
+      title: "Consultor de Seguros",
+      company: "NTT DATA Europe & Latam",
+      description: "Extracción y procesamiento de datos BPS para proyectos de digitalización de pólizas de seguros.",
+      date: "Octubre 2024 – Enero 2025",
+    },
+    {
+      title: "Técnico de Soporte Informático",
+      company: "Ayuntamiento de la Seu d'Urgell",
+      description: "Soporte técnico a la ciudadanía y al personal interno; resolución de incidencias de hardware y software.",
+      date: "Julio 2023 – Septiembre 2023",
+    },
+  ],
+  en: [
+    {
+      title: "Technology Consultant",
+      company: "Deloitte",
+      description: [
+        "Technology support for compliance with Spanish regulations (Ley Crea y Crece, Verifactu invoice verification).",
+        "Automation of report generation workflows for financial institutions' regulatory filings with the Spanish Tax Agency (AEAT).",
+        "Support for FATCA and CRS international tax compliance processes, including the functional design of information exchange systems for tax authorities.",
+        "SAP Public Cloud maintenance projects and analysis and improvement of operational processes.",
+      ],
+      date: "January 2025 – September 2026",
+      current: true,
+    },
+    {
+      title: "Insurance Consultant",
+      company: "NTT DATA Europe & Latam",
+      description: "BPS data extraction and processing for insurance policy digitalization projects.",
+      date: "October 2024 – January 2025",
+    },
+    {
+      title: "IT Support Technician",
+      company: "Seu d'Urgell City Council",
+      description: "Technical support for citizens and internal staff; troubleshooting hardware and software issues.",
+      date: "July 2023 – September 2023",
+    },
+  ],
+};
 ---
 
-<ol class="relative mt-10" aria-label="Experiencia laboral">
+<ol class="relative mt-10" aria-label={t("section.experience")}>
   {
-    experience.map((exp, i) => (
+    EXPERIENCE[lang].map((exp, i) => (
       <li class="anim-fade-in" style={`animation-delay: ${i * 150}ms`}>
-        <ExperienceItem {...exp} />
+        <ExperienceItem {...exp} learnMoreLabel={t("experience.learnMore")} />
       </li>
     ))
   }

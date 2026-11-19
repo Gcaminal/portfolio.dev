@@ -1,30 +1,66 @@
 ---
+import type { Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
 ---
 
 <div class="flex flex-col md:flex-row gap-10 items-start">
   <div class="flex-1 flex flex-col gap-4 text-gray-300 text-pretty">
-    <p>
-      Soy graduado en <strong class="text-white">Empresa y Tecnología</strong> por la UAB, un programa interdisciplinar que conecta el funcionamiento de empresas y conceptos económicos con conceptos de IT. Actualmente curso un <strong class="text-white">Máster en Data Science</strong> en la UOC, donde profundizo en Machine Learning, Deep Learning, inferencia estadística y Big Data.
-    </p>
-    <p>
-      Trabajo como consultor tecnológico en <strong class="text-white">Deloitte</strong>, dando soporte tecnológico a grandes empresas. He desarrollado mis funciones principalmente en dos tipos de industrias:
-    </p>
-    <ul class="flex flex-col gap-2 list-none">
-      <li class="relative pl-5">
-        <span class="absolute left-0 top-0">·</span>
-        <strong class="text-white">Servicios financieros:</strong> automatizando reporting regulatorio y dando soporte en el cumplimiento de normativa española e internacional (FATCA, CRS, Verifactu).
-      </li>
-      <li class="relative pl-5">
-        <span class="absolute left-0 top-0">·</span>
-        <strong class="text-white">Consumo:</strong> en proyectos sobre SAP Public Cloud.
-      </li>
-    </ul>
-    <p>
-      Me considero un perfil versátil, cómodo en entornos cambiantes y con incertidumbre. Me mueve la curiosidad por aprender más allá de mi área de especialidad y por cuestionar cómo funcionan las cosas y cómo podrían funcionar mejor.
-    </p>
-    <p>
-      También pasé seis meses en la <strong class="text-white">DCU Business School</strong> de Dublín como parte de un programa de intercambio, una experiencia que me dio perspectiva internacional y soltura trabajando en inglés.
-    </p>
+    {lang === "en" ? (
+      <>
+        <p>
+          I hold a degree in <strong class="text-white">Business and Technology</strong> from the UAB, an interdisciplinary programme that connects how companies work and economic concepts with IT concepts. I'm currently studying a <strong class="text-white">Master's in Data Science</strong> at the UOC, where I'm going deeper into Machine Learning, Deep Learning, statistical inference and Big Data.
+        </p>
+        <p>
+          I work as a technology consultant at <strong class="text-white">Deloitte</strong>, providing technology support to large companies. I have mainly worked in two types of industries:
+        </p>
+        <ul class="flex flex-col gap-2 list-none">
+          <li class="relative pl-5">
+            <span class="absolute left-0 top-0">·</span>
+            <strong class="text-white">Financial services:</strong> automating regulatory reporting and supporting compliance with Spanish and international regulations (FATCA, CRS, Verifactu).
+          </li>
+          <li class="relative pl-5">
+            <span class="absolute left-0 top-0">·</span>
+            <strong class="text-white">Consumer goods:</strong> on SAP Public Cloud projects.
+          </li>
+        </ul>
+        <p>
+          I see myself as a versatile profile, comfortable in changing and uncertain environments. I'm driven by curiosity to learn beyond my area of expertise and to question how things work and how they could work better.
+        </p>
+        <p>
+          I also spent six months at <strong class="text-white">DCU Business School</strong> in Dublin as part of an exchange programme, an experience that gave me an international perspective and fluency working in English.
+        </p>
+      </>
+    ) : (
+      <>
+        <p>
+          Soy graduado en <strong class="text-white">Empresa y Tecnología</strong> por la UAB, un programa interdisciplinar que conecta el funcionamiento de empresas y conceptos económicos con conceptos de IT. Actualmente curso un <strong class="text-white">Máster en Data Science</strong> en la UOC, donde profundizo en Machine Learning, Deep Learning, inferencia estadística y Big Data.
+        </p>
+        <p>
+          Trabajo como consultor tecnológico en <strong class="text-white">Deloitte</strong>, dando soporte tecnológico a grandes empresas. He desarrollado mis funciones principalmente en dos tipos de industrias:
+        </p>
+        <ul class="flex flex-col gap-2 list-none">
+          <li class="relative pl-5">
+            <span class="absolute left-0 top-0">·</span>
+            <strong class="text-white">Servicios financieros:</strong> automatizando reporting regulatorio y dando soporte en el cumplimiento de normativa española e internacional (FATCA, CRS, Verifactu).
+          </li>
+          <li class="relative pl-5">
+            <span class="absolute left-0 top-0">·</span>
+            <strong class="text-white">Consumo:</strong> en proyectos sobre SAP Public Cloud.
+          </li>
+        </ul>
+        <p>
+          Me considero un perfil versátil, cómodo en entornos cambiantes y con incertidumbre. Me mueve la curiosidad por aprender más allá de mi área de especialidad y por cuestionar cómo funcionan las cosas y cómo podrían funcionar mejor.
+        </p>
+        <p>
+          También pasé seis meses en la <strong class="text-white">DCU Business School</strong> de Dublín como parte de un programa de intercambio, una experiencia que me dio perspectiva internacional y soltura trabajando en inglés.
+        </p>
+      </>
+    )}
   </div>
   <img
     class="rounded-2xl w-full md:w-64 object-cover"

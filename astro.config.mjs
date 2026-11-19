@@ -12,5 +12,14 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
 
-  integrations: [sitemap()]
+  integrations: [
+    sitemap({
+      // "/" only redirects to /es/ or /en/, so keep it out of the sitemap
+      filter: (page) => page !== 'https://gerard-caminal.netlify.app/',
+      i18n: {
+        defaultLocale: 'es',
+        locales: { es: 'es-ES', en: 'en-US' }
+      }
+    })
+  ]
 });

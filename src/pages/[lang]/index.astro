@@ -1,0 +1,73 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import SectionContainer from "../../components/SectionContainer.astro";
+import LinkedInIcon from "../../components/icons/LinkedIn.astro";
+import GitHubIcon from "../../components/icons/GitHub.astro";
+import MailIcon from "../../components/icons/Mail.astro";
+import SocialPill from "../../components/SocialPill.astro";
+import Experience from "../../components/Experience.astro";
+import Projects from "../../components/Projects.astro";
+import AboutMe from "../../components/AboutMe.astro";
+import Contact from "../../components/Contact.astro";
+import { langs, useTranslations, type Lang } from "../../i18n/ui";
+
+export function getStaticPaths() {
+	return langs.map((lang) => ({ params: { lang } }));
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+---
+
+<Layout title="Gerard Caminal - Portfolio" lang={lang}>
+	<main>
+		<SectionContainer class="py-44 pb-24">
+			<h1
+				class="text-white text-3xl md:text-4xl lg:text-5xl font-bold pb-6 lg:pb-10"
+			>
+				{t("hero.title")}
+			</h1>
+			<h2
+				class="text-base lg:text-lg opacity-90 text-wrap max-w-[700px] text-pretty"
+			>
+				{t("hero.subtitle")}
+			</h2>
+			<nav class="flex gap-4 mt-6 flex-wrap">
+				<SocialPill
+					href="https://www.linkedin.com/in/gerard-caminal-altimir-96b88120b/"
+				>
+					<LinkedInIcon class="size-4 lg:size-6" />
+					LinkedIn
+				</SocialPill>
+				<SocialPill href="https://github.com/Gcaminal">
+					<GitHubIcon class="size-4 lg:size-6" />
+					GitHub
+				</SocialPill>
+				<SocialPill href="mailto:gerard.caminal.altimir@gmail.com">
+					<MailIcon class="size-4 lg:size-6" />
+					gerard.caminal.altimir@gmail.com
+				</SocialPill>
+			</nav>
+		</SectionContainer>
+
+		<SectionContainer id="experience">
+			<h2 class="text-3xl font-semibold mb-4">{t("section.experience")}</h2>
+			<Experience lang={lang} />
+		</SectionContainer>
+
+		<SectionContainer id="projects">
+			<h2 class="text-3xl font-semibold mb-4">{t("section.projects")}</h2>
+			<Projects lang={lang} />
+		</SectionContainer>
+
+		<SectionContainer id="about">
+			<h2 class="text-2xl font-semibold mb-6">{t("section.about")}</h2>
+			<AboutMe lang={lang} />
+		</SectionContainer>
+
+		<SectionContainer id="contact">
+			<h2 class="text-2xl font-semibold mb-6">{t("section.contact")}</h2>
+			<Contact lang={lang} />
+		</SectionContainer>
+	</main>
+</Layout>
