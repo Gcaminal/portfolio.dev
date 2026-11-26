@@ -26,6 +26,17 @@ const pageUrl = new URL(`/${path}`, Astro.site);
 
 <link rel="canonical" href={pageUrl} />
 
+{/* Old /es/... links (e.g. from Google results): keep Spanish and move to the URL without
+    the prefix, where the ES/EN switch works. Only in production, local dev uses /es/. */}
+{!import.meta.env.DEV && lang === "es" && (
+	<script is:inline>
+		if (/^\/es(\/|$)/.test(location.pathname)) {
+			document.cookie = "nf_lang=es; path=/; max-age=31536000; SameSite=Lax";
+			location.replace((location.pathname.replace(/^\/es/, "") || "/") + location.search + location.hash);
+		}
+	</script>
+)}
+
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content="https://gerard-caminal.netlify.app/og-image.png" />
