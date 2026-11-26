@@ -1,0 +1,5 @@
+# Both languages are served at the same URL (see _redirects), so Netlify's CDN must keep
+# a separate cached copy per browser language and per ES/EN choice (nf_lang cookie).
+# Without this, the first visitor's language is cached and shown to everyone.
+/*
+  Netlify-Vary: language=es|ca|en,cookie=nf_lang
