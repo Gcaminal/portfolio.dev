@@ -1,0 +1,40 @@
+---
+import { langs, useTranslations, type Lang } from "../i18n/ui";
+
+interface Props {
+	lang: Lang;
+	title: string;
+	description: string;
+	/** Page path without leading slash, e.g. "" for the home page or "personal/wishlist/" */
+	path?: string;
+}
+
+const { lang, title, description, path = "" } = Astro.props;
+const t = useTranslations(lang);
+// Both languages are served at the same URL (see public/_redirects), so there is a single
+// canonical URL per page and no hreflang alternates. The /es/ copies point here too.
+const pageUrl = new URL(`/${path}`, Astro.site);
+---
+
+<meta charset="UTF-8" />
+<meta name="google-site-verification" content="NbymEV6R3d79ZsP-LnOBo6O_Vq3syLUCdHOG60t_ZOQ" />
+<meta name="description" content={description} />
+<meta name="viewport" content="width=device-width" />
+<link rel="icon" type="image/png" href="/Gerard_Caminal.png" />
+<meta name="generator" content={Astro.generator} />
+<title>{title}</title>
+
+<link rel="canonical" href={pageUrl} />
+
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content="https://gerard-caminal.netlify.app/og-image.png" />
+<meta property="og:url" content={pageUrl} />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content={t("meta.locale")} />
+{langs.filter((l) => l !== lang).map((l) => (
+	<meta property="og:locale:alternate" content={useTranslations(l)("meta.locale")} />
+))}
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />

@@ -1,25 +1,5 @@
 ---
-// Fallback for "/". On Netlify, public/_redirects sends visitors to /es/ or /en/
-// based on the browser language before this page is ever served. This page only
-// covers local dev and any host without those rules.
+import View from "../views/Home.astro";
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="robots" content="noindex" />
-		<title>Gerard Caminal - Portfolio</title>
-		<link rel="alternate" hreflang="es" href={new URL("/es/", Astro.site)} />
-		<link rel="alternate" hreflang="en" href={new URL("/en/", Astro.site)} />
-		<script is:inline>
-			var l = ((navigator.languages && navigator.languages[0]) || navigator.language || "").toLowerCase();
-			location.replace(l.startsWith("es") || l.startsWith("ca") ? "/es/" : "/en/");
-		</script>
-		<noscript><meta http-equiv="refresh" content="0; url=/en/" /></noscript>
-	</head>
-	<body style="background:#050505;color:#fff;font-family:system-ui,sans-serif">
-		<p><a href="/es/">Español</a> · <a href="/en/">English</a></p>
-	</body>
-</html>
+<View lang="en" />

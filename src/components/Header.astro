@@ -1,5 +1,5 @@
 ---
-import { useTranslations, type Lang } from "../i18n/ui";
+import { langs, localePath, useTranslations, type Lang } from "../i18n/ui";
 
 interface Props {
     lang: Lang;
@@ -7,6 +7,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+const home = localePath(lang, "/");
 ---
 
 <header class="flex justify-between items-center py-4 w-full xl:w-[1120px] mx-auto">
@@ -16,11 +17,51 @@ const t = useTranslations(lang);
         alt={t("header.photoAlt")}
     />
 
-    <nav class="flex flex-row items-center gap-x-10">
-        <a class="opacity-70 hover:opacity-100" href="#top">{t("nav.home")}</a>
-        <a class="opacity-70 hover:opacity-100" href="#experience">{t("nav.experience")}</a>
-        <a class="opacity-70 hover:opacity-100" href="#projects">{t("nav.projects")}</a>
-        <a class="opacity-70 hover:opacity-100" href="#about">{t("nav.about")}</a>
-        <a class="opacity-70 hover:opacity-100" href="#contact">{t("nav.contact")}</a>
-    </nav>
+    <div class="flex items-center gap-x-10">
+        <nav class="flex flex-row items-center gap-x-10">
+            <a class="opacity-70 hover:opacity-100" href={`${home}#top`}>{t("nav.home")}</a>
+            <a class="opacity-70 hover:opacity-100" href={`${home}#experience`}>{t("nav.experience")}</a>
+            <a class="opacity-70 hover:opacity-100" href={`${home}#projects`}>{t("nav.projects")}</a>
+            <a class="opacity-70 hover:opacity-100" href={`${home}#about`}>{t("nav.about")}</a>
+            <a class="opacity-70 hover:opacity-100" href={`${home}#contact`}>{t("nav.contact")}</a>
+        </nav>
+
+        <div class="flex items-center gap-1 text-xs font-medium" role="group" aria-label={t("header.language")}>
+            {langs.map((l) => (
+                <button
+                    type="button"
+                    data-set-lang={l}
+                    lang={l}
+                    aria-pressed={String(l === lang)}
+                    class:list={[
+                        "rounded-md px-2 py-1 uppercase transition",
+                        l === lang
+                            ? "bg-white/15 text-white"
+                            : "text-white/50 hover:text-white hover:bg-white/5",
+                    ]}
+                >
+                    {l}
+                </button>
+            ))}
+        </div>
+    </div>
 </header>
+
+<script>
+    // Language switch. Netlify reads the nf_lang cookie to decide which build to serve at the
+    // same URL (see public/_redirects), so switching = set cookie + reload. In local dev there
+    // is no Netlify, so jump between "/..." (English) and "/es/..." (Spanish) instead.
+    document.querySelectorAll<HTMLButtonElement>("[data-set-lang]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const lang = btn.dataset.setLang!;
+            if (btn.getAttribute("aria-pressed") === "true") return;
+            document.cookie = `nf_lang=${lang}; path=/; max-age=31536000; SameSite=Lax`;
+            if (import.meta.env.DEV) {
+                const path = location.pathname.replace(/^\/es(?=\/|$)/, "") || "/";
+                location.href = (lang === "es" ? `/es${path}` : path) + location.hash;
+            } else {
+                location.reload();
+            }
+        });
+    });
+</script>

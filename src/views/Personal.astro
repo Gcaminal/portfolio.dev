@@ -1,0 +1,78 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SectionContainer from "../components/SectionContainer.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import { localePath, useTranslations, type Lang } from "../i18n/ui";
+import { WISHLIST } from "../data/wishlist";
+import { GALLERY } from "../data/gallery";
+
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const base = localePath(lang, "/personal/");
+
+const wanted = WISHLIST.filter((i) => !i.owned).length;
+const cards = [
+	{
+		href: `${base}wishlist/`,
+		title: t("personal.wishlist"),
+		text: t("personal.wishlistText"),
+		meta: `${wanted} ${wanted === 1 ? t("wishlist.thing") : t("wishlist.things")}`,
+	},
+	{
+		href: `${base}gallery/`,
+		title: t("personal.gallery"),
+		text: t("personal.galleryText"),
+		meta: `${GALLERY.length} ${GALLERY.length === 1 ? t("wishlist.thing") : t("wishlist.things")}`,
+	},
+];
+---
+
+<Layout
+	title={t("personal.metaTitle")}
+	lang={lang}
+	description={t("personal.metaDescription")}
+	path="personal/"
+>
+	<main>
+		<SectionContainer class="pt-32 lg:pt-44">
+			<Breadcrumb
+				items={[
+					{ label: t("breadcrumb.home"), href: localePath(lang, "/") },
+					{ label: t("section.beyond") },
+				]}
+			/>
+			<h1 class="text-white text-3xl md:text-4xl lg:text-5xl font-bold pt-6 pb-6 lg:pb-8">
+				{t("section.beyond")}
+			</h1>
+			<p class="text-base lg:text-lg opacity-90 max-w-[700px] text-pretty">
+				{t("personal.intro")}
+			</p>
+
+			<ul class="grid gap-4 sm:grid-cols-2 mt-12">
+				{cards.map((card) => (
+					<li>
+						<a
+							href={card.href}
+							class="group flex h-full flex-col rounded-xl border border-white/10 bg-white/5 p-6 transition hover:border-white/30 hover:bg-white/10 md:hover:-translate-y-1 motion-reduce:transform-none"
+						>
+							<span class="flex items-center justify-between gap-3">
+								<span class="text-2xl font-bold text-white">{card.title}</span>
+								<span
+									aria-hidden="true"
+									class="text-xl transition-transform group-hover:translate-x-1 motion-reduce:transition-none"
+								>→</span>
+							</span>
+							<span class="mt-3 text-gray-300 text-pretty">{card.text}</span>
+							<span class="mt-6 text-sm text-white/50">{card.meta}</span>
+						</a>
+					</li>
+				))}
+			</ul>
+		</SectionContainer>
+	</main>
+</Layout>

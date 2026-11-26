@@ -1,3 +1,11 @@
-# Send "/" to the version matching the browser language (Spanish/Catalan -> es, rest -> en)
-/  /es/  302!  Language=es,ca
-/  /en/  302!
+# One URL per page, two languages.
+# English is built at the root. Spanish is built under /es/ and served at the SAME URLs
+# (status 200 = rewrite, the address bar doesn't change) when the browser's first language
+# is Spanish or Catalan, or when the visitor picked ES (nf_lang cookie set by the header switch).
+/            /es/                 200!  Language=es,ca
+/personal    /es/personal/        200!  Language=es,ca
+/personal/*  /es/personal/:splat  200!  Language=es,ca
+
+# Old language-prefixed English URLs
+/en          /                    301!
+/en/*        /:splat              301!

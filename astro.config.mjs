@@ -14,12 +14,9 @@ export default defineConfig({
 
   integrations: [
     sitemap({
-      // "/" only redirects to /es/ or /en/, so keep it out of the sitemap
-      filter: (page) => page !== 'https://gerard-caminal.netlify.app/',
-      i18n: {
-        defaultLocale: 'es',
-        locales: { es: 'es-ES', en: 'en-US' }
-      }
+      // Spanish pages are built under /es/ but served at the same URLs as English
+      // (see public/_redirects), so only the unprefixed URLs go in the sitemap
+      filter: (page) => !page.startsWith('https://gerard-caminal.netlify.app/es/')
     })
   ]
 });

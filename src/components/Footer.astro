@@ -1,11 +1,12 @@
 ---
-import { useTranslations, type Lang } from "../i18n/ui";
+import { localePath, useTranslations, type Lang } from "../i18n/ui";
 
 interface Props {
     lang: Lang;
 }
 
-const t = useTranslations(Astro.props.lang);
+const { lang } = Astro.props;
+const t = useTranslations(lang);
 ---
 
 <footer
@@ -26,7 +27,7 @@ const t = useTranslations(Astro.props.lang);
             class="flex flex-wrap items-center mt-3 text-sm font-medium text-white/90 sm:mt-0"
         >
             <li>
-                <a href="#about" class="hover:underline me-4 md:me-6"
+                <a href={`${localePath(lang, "/")}#about`} class="hover:underline me-4 md:me-6"
                     >{t("nav.about")}</a
                 >
             </li>

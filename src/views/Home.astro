@@ -1,21 +1,22 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import SectionContainer from "../../components/SectionContainer.astro";
-import LinkedInIcon from "../../components/icons/LinkedIn.astro";
-import GitHubIcon from "../../components/icons/GitHub.astro";
-import MailIcon from "../../components/icons/Mail.astro";
-import SocialPill from "../../components/SocialPill.astro";
-import Experience from "../../components/Experience.astro";
-import Projects from "../../components/Projects.astro";
-import AboutMe from "../../components/AboutMe.astro";
-import Contact from "../../components/Contact.astro";
-import { langs, useTranslations, type Lang } from "../../i18n/ui";
+import Layout from "../layouts/Layout.astro";
+import SectionContainer from "../components/SectionContainer.astro";
+import LinkedInIcon from "../components/icons/LinkedIn.astro";
+import GitHubIcon from "../components/icons/GitHub.astro";
+import MailIcon from "../components/icons/Mail.astro";
+import SocialPill from "../components/SocialPill.astro";
+import Experience from "../components/Experience.astro";
+import Projects from "../components/Projects.astro";
+import AboutMe from "../components/AboutMe.astro";
+import Contact from "../components/Contact.astro";
+import { localePath, useTranslations, type Lang } from "../i18n/ui";
 
-export function getStaticPaths() {
-	return langs.map((lang) => ({ params: { lang } }));
+
+interface Props {
+	lang: Lang;
 }
 
-const lang = Astro.params.lang as Lang;
+const { lang } = Astro.props;
 const t = useTranslations(lang);
 ---
 
@@ -63,6 +64,19 @@ const t = useTranslations(lang);
 		<SectionContainer id="about">
 			<h2 class="text-2xl font-semibold mb-6">{t("section.about")}</h2>
 			<AboutMe lang={lang} />
+		</SectionContainer>
+
+		<SectionContainer id="beyond">
+			<a
+				href={localePath(lang, "/personal/")}
+				class="group inline-flex items-center gap-3 text-2xl font-semibold transition hover:text-white/80"
+			>
+				<h2>{t("section.beyond")}</h2>
+				<span
+					aria-hidden="true"
+					class="transition-transform group-hover:translate-x-1 motion-reduce:transition-none"
+				>→</span>
+			</a>
 		</SectionContainer>
 
 		<SectionContainer id="contact">

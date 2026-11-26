@@ -1,0 +1,321 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SectionContainer from "../components/SectionContainer.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import { localePath, useTranslations, type Lang } from "../i18n/ui";
+import { CATEGORIES, PRICE_BANDS, WISHLIST, priceBandOf, type Category } from "../data/wishlist";
+
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const bandLabel = (id: string) => {
+	if (id === "none") return t("wishlist.noPrice");
+	const band = PRICE_BANDS.find((b) => b.id === id)!;
+	if (band.min === 0) return `${t("wishlist.under")} ${band.max}€`;
+	if (band.max === Infinity) return `+${band.min}€`;
+	return `${band.min}–${band.max}€`;
+};
+
+const items = WISHLIST.map((item) => ({
+	...item,
+	band: priceBandOf(item.price)?.id ?? "none",
+	categoryLabel: CATEGORIES[item.category][lang],
+}));
+
+// Only offer filters that match at least one item
+const usedCategories = (Object.keys(CATEGORIES) as Category[])
+	.filter((c) => items.some((i) => i.category === c))
+	.sort((a, b) => CATEGORIES[a][lang].localeCompare(CATEGORIES[b][lang], lang));
+const usedBands = [...PRICE_BANDS.map((b) => b.id as string), "none"].filter((id) =>
+	items.some((i) => i.band === id),
+);
+
+const groups = [
+	{
+		key: "category",
+		label: t("wishlist.category"),
+		options: usedCategories.map((c) => ({ value: c, label: CATEGORIES[c][lang] })),
+	},
+	{
+		key: "price",
+		label: t("wishlist.price"),
+		options: usedBands.map((id) => ({ value: id, label: bandLabel(id) })),
+	},
+	{
+		key: "status",
+		label: t("wishlist.status"),
+		options: [
+			{ value: "want", label: t("wishlist.want") },
+			{ value: "owned", label: t("wishlist.owned") },
+		],
+	},
+];
+---
+
+<Layout
+	title={t("wishlist.metaTitle")}
+	lang={lang}
+	description={t("wishlist.intro")}
+	path="personal/wishlist/"
+>
+	<main>
+		<SectionContainer class="pt-32 lg:pt-44">
+			<Breadcrumb
+				items={[
+					{ label: t("breadcrumb.home"), href: localePath(lang, "/") },
+					{ label: t("section.beyond"), href: localePath(lang, "/personal/") },
+					{ label: t("personal.wishlist") },
+				]}
+			/>
+			<h1 class="text-white text-3xl md:text-4xl lg:text-5xl font-bold pt-6 pb-6 lg:pb-8">
+				{t("wishlist.title")}
+			</h1>
+			<p class="text-base lg:text-lg opacity-90 max-w-[700px] text-pretty">
+				{t("wishlist.intro")}
+			</p>
+		</SectionContainer>
+
+		<SectionContainer id="wishlist">
+			<div id="wishlist-filters" class="flex flex-col gap-4" aria-label={t("wishlist.filters")} role="region">
+				{groups.map((group) => (
+					<div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:gap-4">
+						<span class="shrink-0 pt-1 text-xs uppercase tracking-wider text-white/50 sm:w-24">{group.label}</span>
+						<div class="flex flex-wrap gap-2" role="group" aria-label={group.label} data-filter={group.key}>
+							<button type="button" class="chip" data-value="all" aria-pressed="true">{t("wishlist.all")}</button>
+							{group.options.map((o) => (
+								<button type="button" class="chip" data-value={o.value} aria-pressed="false">{o.label}</button>
+							))}
+						</div>
+					</div>
+				))}
+			</div>
+
+			<div class="mt-12 mb-6 flex items-center justify-between gap-4">
+				<p class="text-sm text-white/60" aria-live="polite">
+					<span id="wishlist-count">{items.length}</span>{" "}
+					<span id="wishlist-count-label" data-one={t("wishlist.thing")} data-many={t("wishlist.things")}>
+						{items.length === 1 ? t("wishlist.thing") : t("wishlist.things")}
+					</span>
+				</p>
+				<div class="flex gap-2" role="group" aria-label={t("wishlist.view")}>
+					<button type="button" class="chip" data-view-btn="grid" aria-pressed="true">{t("wishlist.grid")}</button>
+					<button type="button" class="chip" data-view-btn="list" aria-pressed="false">{t("wishlist.list")}</button>
+				</div>
+			</div>
+
+			<ul id="wishlist-items" data-view="grid">
+				{items.map((item) => (
+					<li
+						class="item"
+						data-category={item.category}
+						data-price={item.band}
+						data-status={item.owned ? "owned" : "want"}
+					>
+						<a href={item.url} target="_blank" rel="noopener noreferrer" class:list={["card group", { owned: item.owned }]}>
+							<div class:list={["thumb", { "has-bg": item.background }]} style={item.background ? `background:${item.background}` : undefined}>
+								{item.image ? (
+									<img src={item.image} alt="" loading="lazy" class="product" />
+								) : (
+									<span aria-hidden="true" class="text-3xl font-bold text-white/20">{item.brand.charAt(0)}</span>
+								)}
+								{item.owned && <span class="badge">✓ {t("wishlist.owned")}</span>}
+							</div>
+							<div class="info">
+								<span class="text-xs uppercase tracking-wider text-white/50">{item.brand}</span>
+								<span class="mt-1 font-semibold text-white group-hover:underline">{item.name}</span>
+								<span class="mt-1 text-sm text-white/50">
+									{bandLabel(item.band)} · {item.categoryLabel}
+									{item.owned && <span class="owned-tag"> · ✓ {t("wishlist.owned")}</span>}
+								</span>
+							</div>
+						</a>
+					</li>
+				))}
+			</ul>
+			<p id="wishlist-empty" class="hidden py-12 text-center text-white/60">{t("wishlist.empty")}</p>
+		</SectionContainer>
+	</main>
+</Layout>
+
+<style>
+	.chip {
+		border: 1px solid rgb(255 255 255 / 0.15);
+		border-radius: 9999px;
+		padding: 0.2rem 0.75rem;
+		font-size: 0.8125rem;
+		color: rgb(255 255 255 / 0.75);
+		cursor: pointer;
+		transition: background-color 150ms, color 150ms, border-color 150ms;
+	}
+	.chip:hover {
+		border-color: rgb(255 255 255 / 0.4);
+		color: #fff;
+	}
+	.chip[aria-pressed="true"] {
+		background: #fff;
+		border-color: #fff;
+		color: #000;
+	}
+	.chip:focus-visible {
+		outline: 2px solid #fff;
+		outline-offset: 2px;
+	}
+
+	/* Grid view */
+	#wishlist-items[data-view="grid"] {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 2rem 1rem;
+	}
+	@media (min-width: 768px) {
+		#wishlist-items[data-view="grid"] {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+	}
+	.card {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+	}
+	.thumb {
+		position: relative;
+		display: grid;
+		place-items: center;
+		aspect-ratio: 1;
+		overflow: hidden;
+		border-radius: 0.75rem;
+		border: 1px solid rgb(255 255 255 / 0.1);
+		background: rgb(255 255 255 / 0.05);
+		transition: border-color 300ms, background-color 300ms;
+	}
+	/* Product image: centred with breathing room, like an object resting on the tile */
+	.product {
+		position: absolute;
+		inset: 12%;
+		width: 76%;
+		height: 76%;
+		object-fit: contain;
+		filter: drop-shadow(0 12px 24px rgb(0 0 0 / 0.55));
+		transition: transform 500ms;
+	}
+	.card:hover .product {
+		transform: scale(1.05);
+	}
+	/* On a custom background the photo blends into the tile, so no shadow */
+	.thumb.has-bg .product {
+		filter: none;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.card:hover .product {
+			transform: none;
+		}
+	}
+	.card:hover .thumb {
+		border-color: rgb(255 255 255 / 0.3);
+		background: rgb(255 255 255 / 0.08);
+	}
+	.info {
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+	}
+	.badge {
+		position: absolute;
+		top: 0.5rem;
+		left: 0.5rem;
+		border-radius: 9999px;
+		background: rgb(37 99 235);
+		color: #fff;
+		font-size: 0.7rem;
+		padding: 0.1rem 0.5rem;
+	}
+	.owned .thumb > :not(.badge),
+	.owned .info > span:not(:last-child) {
+		opacity: 0.55;
+	}
+
+	/* List view */
+	#wishlist-items[data-view="list"] {
+		display: flex;
+		flex-direction: column;
+	}
+	#wishlist-items[data-view="list"] .item + .item {
+		border-top: 1px solid rgb(255 255 255 / 0.1);
+	}
+	#wishlist-items[data-view="list"] .card {
+		flex-direction: row;
+		align-items: center;
+		gap: 1rem;
+		padding: 0.75rem 0;
+	}
+	#wishlist-items[data-view="list"] .thumb {
+		width: 4rem;
+		flex-shrink: 0;
+		border-radius: 0.5rem;
+	}
+	#wishlist-items[data-view="list"] .thumb span:not(.badge) {
+		font-size: 1.25rem;
+	}
+	#wishlist-items[data-view="list"] .badge {
+		display: none;
+	}
+	.owned-tag {
+		display: none;
+	}
+	#wishlist-items[data-view="list"] .owned-tag {
+		display: inline;
+		color: rgb(96 165 250);
+	}
+</style>
+
+<script>
+	const list = document.getElementById("wishlist-items")!;
+	const items = [...list.querySelectorAll<HTMLElement>(".item")];
+	const count = document.getElementById("wishlist-count")!;
+	const countLabel = document.getElementById("wishlist-count-label")!;
+	const empty = document.getElementById("wishlist-empty")!;
+	const active: Record<string, string> = { category: "all", price: "all", status: "all" };
+
+	const apply = () => {
+		let visible = 0;
+		for (const item of items) {
+			const show = Object.entries(active).every(([key, value]) => value === "all" || item.dataset[key] === value);
+			item.hidden = !show;
+			if (show) visible++;
+		}
+		count.textContent = String(visible);
+		countLabel.textContent = (visible === 1 ? countLabel.dataset.one : countLabel.dataset.many) ?? "";
+		empty.classList.toggle("hidden", visible > 0);
+	};
+
+	document.querySelectorAll<HTMLElement>("[data-filter]").forEach((group) => {
+		const key = group.dataset.filter!;
+		group.addEventListener("click", (e) => {
+			const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("button[data-value]");
+			if (!btn) return;
+			active[key] = btn.dataset.value!;
+			group.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+			apply();
+		});
+	});
+
+	// Grid / list toggle, remembered per visitor
+	const viewButtons = document.querySelectorAll<HTMLButtonElement>("[data-view-btn]");
+	const setView = (view: string) => {
+		list.dataset.view = view;
+		viewButtons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.viewBtn === view)));
+		try {
+			localStorage.setItem("wishlist-view", view);
+		} catch {}
+	};
+	viewButtons.forEach((b) => b.addEventListener("click", () => setView(b.dataset.viewBtn!)));
+	try {
+		const saved = localStorage.getItem("wishlist-view");
+		if (saved === "grid" || saved === "list") setView(saved);
+	} catch {}
+</script>
