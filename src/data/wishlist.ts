@@ -101,5 +101,14 @@ export const WISHLIST: WishlistItem[] = [
 		category: "home",
 		url: "https://levoit.es/products/levoit-core-300s-purificador-de-aire-inteligente?variant=51094329262414&country=ES&currency=EUR&utm_medium=product_sync&utm_source=google&utm_content=sag_organic&utm_campaign=sag_organic&gad_source=1&gad_campaignid=24467894610&gbraid=0AAAABEVeM-aEWLrtbpmS0nK7Seg0YRV7w&gclid=CjwKCAiAzp_YBhAJEiwASf8kHS8UQLcWU950uTMAQrPqDqbKJ97RylbK6c8TwQblQw8bDdCK4Zge3hoCAusQAvD_BwE",
 		price: 99,
+		image: "/wishlist/levoit-core-300s.png",
+	},
+	{
+		name: "Historias de Roma",
+		brand: "Enric Gonzalez",
+		category: "books",
+		url: "https://www.casadellibro.com/libro-historias-de-roma/9788490564103/2490084?aw_affid=1196254&sv1=affiliate&sv_campaign_id=1196254&awc=21491_1795776455_381d3517667836f24ec71cacdc93ad5f&utm_source=awin&utm_campaign=1196254&utm_medium=afiliados&utm_content=RBA+LIBROS+Y+PUBLICACIONES%2C+SLU",
+		price: 19,
+		image: "/wishlist/historias-de-roma.png",
 	},
 ];

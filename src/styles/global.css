@@ -1,1 +1,26 @@
 @import "tailwindcss";
+
+/* Theme chosen with the header switch (data-theme on <html>), not the OS setting */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Dark theme (default) */
+:root {
+	color-scheme: dark;
+	--page-bg: #050505;
+	--fg: #fff;
+	--shadow: rgb(0 0 0 / 0.55);
+}
+
+/* Light theme: the site is written with text-white / gray-300 / gray-800 for the dark look,
+   so the light theme swaps those colours instead of restyling every component.
+   white -> dark grey (headings), gray-300 -> mid grey (body text), gray-800 -> light borders */
+:root[data-theme="light"] {
+	color-scheme: light;
+	--page-bg: #f7f7f8;
+	--fg: #1f2937;
+	--shadow: rgb(0 0 0 / 0.18);
+	--color-white: #1f2937;
+	--color-gray-300: #4b5563;
+	--color-gray-800: #e5e7eb;
+	color: #4b5563;
+}

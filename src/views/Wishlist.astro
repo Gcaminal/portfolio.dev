@@ -144,25 +144,25 @@ const groups = [
 
 <style>
 	.chip {
-		border: 1px solid rgb(255 255 255 / 0.15);
+		border: 1px solid color-mix(in oklab, var(--fg) 15%, transparent);
 		border-radius: 9999px;
 		padding: 0.2rem 0.75rem;
 		font-size: 0.8125rem;
-		color: rgb(255 255 255 / 0.75);
+		color: color-mix(in oklab, var(--fg) 75%, transparent);
 		cursor: pointer;
 		transition: background-color 150ms, color 150ms, border-color 150ms;
 	}
 	.chip:hover {
-		border-color: rgb(255 255 255 / 0.4);
-		color: #fff;
+		border-color: color-mix(in oklab, var(--fg) 40%, transparent);
+		color: var(--fg);
 	}
 	.chip[aria-pressed="true"] {
-		background: #fff;
-		border-color: #fff;
-		color: #000;
+		background: var(--fg);
+		border-color: var(--fg);
+		color: var(--page-bg);
 	}
 	.chip:focus-visible {
-		outline: 2px solid #fff;
+		outline: 2px solid var(--fg);
 		outline-offset: 2px;
 	}
 
@@ -189,8 +189,8 @@ const groups = [
 		aspect-ratio: 1;
 		overflow: hidden;
 		border-radius: 0.75rem;
-		border: 1px solid rgb(255 255 255 / 0.1);
-		background: rgb(255 255 255 / 0.05);
+		border: 1px solid color-mix(in oklab, var(--fg) 10%, transparent);
+		background: color-mix(in oklab, var(--fg) 5%, transparent);
 		transition: border-color 300ms, background-color 300ms;
 	}
 	/* Product image: centred with breathing room, like an object resting on the tile */
@@ -200,7 +200,7 @@ const groups = [
 		width: 76%;
 		height: 76%;
 		object-fit: contain;
-		filter: drop-shadow(0 12px 24px rgb(0 0 0 / 0.55));
+		filter: drop-shadow(0 12px 24px var(--shadow));
 		transition: transform 500ms;
 	}
 	.card:hover .product {
@@ -216,8 +216,8 @@ const groups = [
 		}
 	}
 	.card:hover .thumb {
-		border-color: rgb(255 255 255 / 0.3);
-		background: rgb(255 255 255 / 0.08);
+		border-color: color-mix(in oklab, var(--fg) 30%, transparent);
+		background: color-mix(in oklab, var(--fg) 8%, transparent);
 	}
 	.info {
 		display: flex;
@@ -245,7 +245,7 @@ const groups = [
 		flex-direction: column;
 	}
 	#wishlist-items[data-view="list"] .item + .item {
-		border-top: 1px solid rgb(255 255 255 / 0.1);
+		border-top: 1px solid color-mix(in oklab, var(--fg) 10%, transparent);
 	}
 	#wishlist-items[data-view="list"] .card {
 		flex-direction: row;

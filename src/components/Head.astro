@@ -24,6 +24,13 @@ const pageUrl = new URL(`/${path}`, Astro.site);
 <meta name="generator" content={Astro.generator} />
 <title>{title}</title>
 
+{/* Apply the saved light/dark choice before the page paints (dark by default) */}
+<script is:inline>
+	try {
+		if (localStorage.getItem("theme") === "light") document.documentElement.dataset.theme = "light";
+	} catch {}
+</script>
+
 <link rel="canonical" href={pageUrl} />
 
 {/* Old /es/... links (e.g. from Google results): keep Spanish and move to the URL without

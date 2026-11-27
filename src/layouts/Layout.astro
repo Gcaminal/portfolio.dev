@@ -19,13 +19,14 @@ const t = useTranslations(lang);
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang={lang} data-theme="dark">
   <head>
     <Head lang={lang} title={title} description={description ?? t("meta.description")} path={path} />
   </head>
 
   <body>
-	<div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-radial-[at_top] from-gray-700 via-gray-900 to-black"></div>
+	<div aria-hidden="true" class="bg-dark pointer-events-none absolute inset-0 -z-10 bg-radial-[at_top] from-gray-700 via-gray-900 to-black"></div>
+	<div aria-hidden="true" class="bg-light pointer-events-none absolute inset-0 -z-10"></div>
     <Header lang={lang} />
     <slot />
 	<Footer lang={lang} />
@@ -33,10 +34,6 @@ const t = useTranslations(lang);
 </html>
 
 <style is:global>
-  :root {
-    color-scheme: dark;
-  }
-
   html {
     font-family: "Onest Variable", system-ui, sans-serif;
 	scroll-behavior: smooth;
@@ -44,11 +41,28 @@ const t = useTranslations(lang);
 
   body {
 	position: relative;
-	background: #050505;
+	background: var(--page-bg);
   	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	min-height: 100vh;
+  }
+
+  /* Light theme: white page with soft, irregular grey patches (only one background shows) */
+  .bg-light {
+	display: none;
+	background:
+		radial-gradient(ellipse 55% 30% at 12% 6%, rgb(17 24 39 / 0.14), transparent 70%),
+		radial-gradient(ellipse 45% 25% at 88% 18%, rgb(17 24 39 / 0.11), transparent 70%),
+		radial-gradient(ellipse 60% 22% at 28% 42%, rgb(17 24 39 / 0.12), transparent 70%),
+		radial-gradient(ellipse 40% 28% at 82% 63%, rgb(17 24 39 / 0.11), transparent 70%),
+		radial-gradient(ellipse 55% 25% at 18% 88%, rgb(17 24 39 / 0.13), transparent 70%);
+  }
+  [data-theme="light"] .bg-light {
+	display: block;
+  }
+  [data-theme="light"] .bg-dark {
+	display: none;
   }
 
   @media (prefers-reduced-motion: reduce){
