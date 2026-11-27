@@ -44,8 +44,20 @@ const t = useTranslations(lang);
 	background: var(--page-bg);
   	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	min-height: 100vh;
+	/* Side margins on phones/tablets; sections set their own width from lg up */
+	padding-inline: 1.25rem;
+	/* Nothing may be wider than the screen (it makes phones zoom out and shift left) */
+	overflow-x: clip;
+  }
+  /* Content fills the height so the footer stays at the bottom on short pages */
+  body > main {
+	flex: 1;
+  }
+  @media (min-width: 768px) {
+	body {
+		padding-inline: 2rem;
+	}
   }
 
   /* Light theme: white page with soft, irregular grey patches (only one background shows) */
